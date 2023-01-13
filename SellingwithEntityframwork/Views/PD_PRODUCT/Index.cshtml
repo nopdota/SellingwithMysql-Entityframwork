@@ -1,0 +1,70 @@
+﻿@model IEnumerable<SellingwithEntityframwork.Models.pd_product>
+
+@{
+    ViewBag.Title = "Index";
+    IEnumerable<SellingwithEntityframwork.Models.pd_type> TYPELIST = (IEnumerable<SellingwithEntityframwork.Models.pd_type>)ViewData["listTYPE"];
+
+}
+
+<h2>จัดการสินค้า</h2>
+
+<p>
+    @Html.ActionLink("เพิ่มสินค้า", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            รหัสสินค้า
+        </th>
+        <th>
+            ชื่อสินค้า
+        </th>
+        <th>
+            จำนวน
+        </th>
+        <th>
+            ราคา
+        </th>
+        <th>
+            รหัสประเภทสินค้า
+        </th>
+        <th>
+            หน่วย
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PD_ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PD_NAME)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PD_VALUE)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PD_PRICE)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TP_ID)
+                @if (TYPELIST.Where(x => x.TP_ID == item.TP_ID).FirstOrDefault() != null)
+                {
+                @TYPELIST.Where(x => x.TP_ID == item.TP_ID).FirstOrDefault().TP_NAME
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PD_UNIT)
+            </td>
+            <td>
+                @Html.ActionLink("แก้ไข", "Edit", new { id = item.PD_ID }) |
+                @Html.ActionLink("รายละเอียด", "Details", new { id = item.PD_ID }) |
+                @Html.ActionLink("ลบ", "Delete", new { id = item.PD_ID })
+            </td>
+        </tr>
+    }
+
+</table>

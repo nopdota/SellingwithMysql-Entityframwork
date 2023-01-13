@@ -1,0 +1,39 @@
+﻿@model IEnumerable<SellingwithEntityframwork.Models.pd_user>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.USERNAME)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PASSWORD)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.USERNAME)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.PASSWORD)
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.USERNAME }) |
+        @Html.ActionLink("Details", "Details", new { id = item.USERNAME }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.USERNAME })
+    </td>
+</tr>
+}
+
+</table>

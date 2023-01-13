@@ -1,0 +1,112 @@
+﻿@{
+    ViewBag.Title = "ReportIndex";
+    IEnumerable<SellingwithEntityframwork.Controllers.ReportController.ClassReportIndex> PRODUCTLIST = (IEnumerable<SellingwithEntityframwork.Controllers.ReportController.ClassReportIndex>)ViewData["ReportIndex"];
+    Layout = null;
+}
+
+
+<div>
+    <div style="text-align:center">
+        <h2> สรุปรายการขายสินค้าทั้งหมด </h2> 
+    </div>
+    <table class="table" id="tablerepoet1">
+
+        <thead>
+            <tr>
+                <th>
+                    เลขที่ Order
+                </th>
+                <th>
+                    รหัสสินค้า
+                </th>
+                <th>
+                    ชื่อสินค้า
+                </th>
+
+                <th>
+                    รหัสประเภทสินค้า
+                </th>
+                <th>
+                    ประเภทสินค้า
+                </th>
+                <th>
+                    จำนวน
+                </th>
+
+                <th>
+                    หน่วย
+                </th>
+                <th>
+                    ราคา
+                </th>
+                <th>
+                    วันที่
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{int i = 1; }
+            @foreach (var item in PRODUCTLIST)
+            {
+                <tr>
+
+                    <td>
+                        @item.OR_ID
+                    </td>
+                    <td>
+                        @item.PD_ID
+                    </td>
+                    <td>
+                        @item.PD_NAME
+                    </td>
+
+                    <td>
+                        @item.TP_ID
+                    </td>
+                    <td>
+                        @item.TP_NAME
+                    </td>
+                    <td>
+                        @item.OD_QUANTITY
+                    </td>
+                    <td>
+                        @item.UNIT
+                    </td>
+                    <td>
+                        @item.PRICE
+                    </td>
+                    <td>
+                        @item.OD_DATE
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+        <tfoot>
+            <tr>
+                <td id="td_count_tatop">
+                    ทั้งหมด : @PRODUCTLIST.ToList().Count รายการ
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td id="td_sum_tatop">
+                    รวม @PRODUCTLIST.Sum(x => decimal.Parse(x.PRICE))
+                </td>
+                <td>
+                    BTH
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

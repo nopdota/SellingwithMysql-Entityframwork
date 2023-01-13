@@ -1,0 +1,129 @@
+﻿
+@{
+    Layout = null;
+
+}
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
+<body style="height: 284px">
+
+    <style>
+        .css1 {
+            font-size: 26px;
+            z-index: 10;
+        }
+    </style>
+    @*@{
+            int a = 10000000;
+            string aa = "";
+            aa = a.ToString("N0");
+
+
+        }
+        @aa*@
+    <div style="text-align:center;">
+
+        <br />
+        <span style="font-size: 35px;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;โปรแกรมขายสินค้า</span>
+        <br />
+        <br />
+
+        <table style="width: 700px; margin: auto; font-size: 30px;" border="0">
+            <tr>
+                <td style="width: 40%; text-align: right;">
+                    <label for="tags">Username :</label>
+                </td>
+                <td style="width: auto; text-align: left;">
+
+                    <input type="text" class="form-control" style=" width:240px; height:50px" id="username" onkeypress="runScriptLOGIN(event)">
+
+
+                </td>
+            </tr>
+            @*<tr>
+                    <td colspan="2"><br /></td>
+                </tr>*@
+            <tr>
+                <td style="text-align: right;">
+                    <label for="tags">Password :</label>
+                </td>
+                <td style="width: auto; text-align: left;">
+                    <input type="password" class="form-control" style=" width:240px; height:50px" id="password" onkeypress="runScriptLOGIN(event)">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2"><br /></td>
+            </tr>
+            <tr>
+                <td> </td>
+                <td style="text-align: left;">
+
+                    <button type="button" onclick="login()" class="btn btn-primary btn-block btn-flat" style=" width:240px; height:50px">Log In</button>
+                </td>
+            </tr>
+        </table>
+
+
+    </div>
+
+    @*<div id="AlertWrongCenter" class="css1" style="position: fixed; left: 0px; width: 100%; padding-top: 0px; display: none;">
+            <div style="background:  #ff8080; width: 250px; margin: auto; padding-top : 30px; padding-left : 30px; padding-bottom : 30px; border-style: solid; ">
+                กรอก Center ไม่ถูกต้อง
+                <div><br /></div>
+                <div style="width : 80px; padding-left : 80px;"><Button id="btnOK1" runat="server" value="OK" Text="OK" style="font-size: 26px; " /></div>
+            </div>
+        </div>
+        <div id="AlertWrongPassword" class="css1" style="position: fixed; left: 0px; width: 100%; padding-top: 0px; display: none;">
+            <div style="background:  #ff8080; width: 250px; margin: auto; padding-top : 30px; padding-left : 30px; padding-bottom : 30px; border-style: solid; ">
+                รหัสผ่านไม่ถูกต้อง
+                <div><br /></div>
+                <div style="width : 80px; padding-left : 80px;"><Button id="btnOK2" runat="server" value="OK" Text="OK" style="font-size: 26px; " /></div>
+            </div>
+        </div>*@
+
+
+    <br />
+
+    <!--asp:TextBox ID="txtPwd" runatx="server" Width="142px" TextMode="Password" Height="19px" AutoPostBack="True"></!--asp:TextBox -->
+
+    <br />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <!-- asp:Button ID="btn_Login" runatx="server" Text="Log In" /-->
+
+
+</body>
+@Scripts.Render("~/bundles/jquery")
+<script>
+    function login() {
+
+        const dataModel = {
+            user: $('#username').val().trim(),
+            pass: $('#password').val().trim(),
+        }
+        //console.log(" ส่งไปsave ", dataModel);
+        $.ajax({
+            url: '@Url.Action("Inputlogin", "Login")',
+            data: dataModel,
+            dataType: "json",
+            type: 'POST',
+            success: function (res) {
+                if (res["success"]) {
+                    alert("ยินดีต้อนรับเข้าสู่ระบบ :" + res["msg"])
+                    window.location.href = '@Url.Action("Index","Home")'
+                } else {
+                   alert("username หรือ password ไม่ถูกต้อง")
+                    return;
+                }
+            },
+        });
+        $('#username').val('');
+        $('#password').val('');
+    }
+    function runScriptLOGIN(e) {
+        //See notes about 'which' and 'key'
+        if (e.keyCode == 13) {
+            login();
+            return false;
+        }
+    }
+</script>

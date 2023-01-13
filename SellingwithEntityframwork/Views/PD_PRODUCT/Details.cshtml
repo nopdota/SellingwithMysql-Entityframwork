@@ -1,0 +1,65 @@
+﻿@model SellingwithEntityframwork.Models.pd_product
+
+@{
+    ViewBag.Title = "Details";
+}
+
+
+
+<div>
+    <h4>รายละเอียด</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PD_ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PD_ID)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PD_NAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PD_NAME)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PD_VALUE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PD_VALUE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PD_PRICE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PD_PRICE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TP_ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TP_ID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PD_UNIT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PD_UNIT)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.PD_ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

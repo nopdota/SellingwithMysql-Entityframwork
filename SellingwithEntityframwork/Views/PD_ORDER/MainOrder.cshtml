@@ -1,0 +1,404 @@
+﻿@using Newtonsoft.Json
+@{
+    ViewBag.Title = "MainOrder";
+    IEnumerable<SellingwithEntityframwork.Models.pd_product> PRODUCTLIST = (IEnumerable<SellingwithEntityframwork.Models.pd_product>)ViewData["listPRODUCT"];
+    IEnumerable<SellingwithEntityframwork.Models.pd_type> TYPELIST = (IEnumerable<SellingwithEntityframwork.Models.pd_type>)ViewData["listTYPE"];
+    IEnumerable<SellingwithEntityframwork.Models.pd_order> ODERLIST = (IEnumerable<SellingwithEntityframwork.Models.pd_order>)ViewData["listORder"];
+    string strJsonPRODUCTLIST = JsonConvert.SerializeObject(PRODUCTLIST);
+}
+
+<div>
+    <div style="text-align:center">
+        <h2> รายการสินค้า </h2>
+    </div>
+
+    <table class="table" id="tableproduct">
+
+        <thead>
+            <tr>
+                <th>
+                </th>
+                <th>
+                    รหัสสินค้า
+                </th>
+                <th>
+                    ชื่อสินค้า
+                </th>
+                <th>
+                    จำนวน
+                </th>
+                <th>
+                    ราคา
+                </th>
+                <th>
+                    รหัสประเภทสินค้า
+                </th>
+                <th>
+                    หน่วย
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @{int i = 1; }
+            @foreach (var item in PRODUCTLIST)
+            {
+                <tr>
+                    <td class="itemadd">
+                        <input type="button" class="btn btn-success add" onclick="clicktoorder(this)" value="+">
+                    </td>
+                    <td class="PD_ID">
+                        @Html.DisplayFor(modelItem => item.PD_ID)
+                    </td>
+                    <td class="PD_NAME">
+                        @Html.DisplayFor(modelItem => item.PD_NAME)
+                    </td>
+                    <td id="ID_VALUE_@item.PD_ID" class="PD_VALUE">
+                        @Html.DisplayFor(modelItem => item.PD_VALUE)
+                    </td>
+                    <td class="PD_PRICE">
+                        @Html.DisplayFor(modelItem => item.PD_PRICE)
+                    </td>
+                    <td class="TP_ID">
+                        @Html.DisplayFor(modelItem => item.TP_ID)
+                        @if (TYPELIST.Where(x => x.TP_ID == item.TP_ID).FirstOrDefault() != null)
+                        {
+                            @TYPELIST.Where(x => x.TP_ID == item.TP_ID).FirstOrDefault().TP_NAME
+                        }
+                    </td>
+                    <td class="PD_UNIT">
+                        @Html.DisplayFor(modelItem => item.PD_UNIT)
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+
+
+    </table>
+</div>
+
+<div>
+    <div style="text-align:center">
+        <h2>เออเดอร์รายการสินค้า</h2>
+        <label id="orderid"></label>
+    </div>
+    <input type="button" class="btn btn-warning col-sm-1" onclick="refeshandclear()" value="Clear" disabled id="clearitem">
+    <table class="table" id="tableproducttoOrder">
+        <thead>
+            <tr>
+                <th>
+                    จำนวนรายการที่สั่ง
+                </th>
+                <th>
+                    รหัสสินค้า
+                </th>
+                <th>
+                    ชื่อสินค้า
+                </th>
+                <th>
+                    จำนวน
+                </th>
+                <th>
+                    ราคา
+                </th>
+                <th>
+                    รหัสประเภทสินค้า
+                </th>
+                <th>
+                    หน่วย
+                </th>
+                <th></th>
+
+            </tr>
+        </thead>
+        <tbody id="tbodyPDorder">
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>
+                    ทั้งหมด : 
+                    <br><label id="CountPD"></label> รายการ
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                   รวม <label id="CountPcire"></label>
+                </td>
+                <td>
+                    <br>
+                    <label id="Units">BTH</label>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+    <input type="button" class="btn btn-primary col-sm-1" value="Create" onclick="Createorder()" disabled id="Creorder">
+    <br>
+</div>
+
+
+<div>
+    <div style="text-align:center">
+        <h2>รายเออเดอร์วันนี้</h2>
+  
+    </div>
+
+    <table class="table" id="tableOrder">
+        <thead>
+            <tr>
+                <th>
+                </th>
+                <th>
+                    จำนวน ออเดอร์
+                </th>
+                <th>
+                    รหัสออเดอร์
+                </th>
+
+                <th>
+                    วันที่
+                </th>
+                <th>
+                    ราคา
+                </th>
+            </tr>
+        </thead>
+        <tbody id="thobyoorderbottom">
+            @{ 
+                int orderumber = 1;
+
+
+
+} 
+            @if(ODERLIST!=null)
+            {
+                foreach (var item in ODERLIST.GroupBy(x => new { x.OD_ID }).ToList())
+                {
+                <tr>
+                    <td >
+                        <input type="button" class="btn btn-success add" onclick="EvnetclickgetorderHistory(this)" value="Show">
+                    </td>
+                    <td >
+                        @orderumber
+                    </td>
+                    <td class="orderidHIS">
+                        @Html.DisplayFor(modelItem => item.Key.OD_ID)
+                    </td>
+                    <td >
+                        @DateTime.Now.ToShortDateString()
+                    </td>
+                    <td >
+                        @ODERLIST.Where(x=>x.OD_ID==item.Key.OD_ID).Sum(x => x.PRICE)
+                    </td>
+
+
+                </tr>
+                    orderumber++;
+                }
+            }
+        </tbody>
+    </table>
+    <br>
+</div>
+@Scripts.Render("~/bundles/jquery")
+<script>
+
+    function rejectitem(e)
+    {
+        var selectedRow = e.parentNode.parentNode;
+        var parentNode = selectedRow.parentNode;
+        var columns = selectedRow.querySelectorAll("td");
+        var data = [];
+        for (var i = 0; i < columns.length - 1; i++) {
+            data.push(columns[i].textContent);
+        }
+        console.log(data);
+        var idselect = "ID_VALUE_"+ data[1];
+        var countCell = document.querySelector("#tableproduct #" + idselect);
+        countCell.innerHTML = parseInt(countCell.innerHTML) + 1;
+        parentNode.removeChild(selectedRow);
+        $("#CountPD").text((parseInt($("#CountPD").text().trim()) - 1));
+        $("#CountPcire").text((parseInt($("#CountPcire").text().trim()) - parseInt(data[4])));
+        table = document.getElementById("tbodyPDorder");
+        var row = table.rows.length;
+        if (row==0)
+        {
+            document.getElementById("Creorder").disabled = true;
+        }
+    }
+
+    function clicktoorder(e) {
+        // Get the item data from table A, for example assuming the item have the id and name
+        var check = $('#orderid').text().trim();
+        if (check != "")
+        {
+            $("#tbodyPDorder").empty();
+        }
+        $('#orderid').text('');
+        var storevalue = parseFloat($(e).closest('tr').find('.PD_VALUE').text().trim());
+        if (storevalue === 0) {
+            $(e).closest('tr').find('.itemadd').text('')
+            alert("สินค้าไม่พอ");
+        } else {
+            storevalue = storevalue - 1;
+            console.log(e);
+            var PD_ID = $(e).closest('tr').find('.PD_ID').text().trim();
+            var PD_NAME = $(e).closest('tr').find('.PD_NAME').text().trim();
+            var PD_VALUE = '1';
+            var PD_PRICE = $(e).closest('tr').find('.PD_PRICE').text().trim();
+            var TP_ID = $(e).closest('tr').find('.TP_ID').text().trim();
+            var PD_UNIT = $(e).closest('tr').find('.PD_UNIT').text().trim();
+            var table = document.getElementById("tableproducttoOrder");
+            var count = table.rows.length-1;
+            var newRow = '<tr> <td>' + count + '</td><td>' + PD_ID + '</td><td>' + PD_NAME + '</td><td>' + PD_VALUE + '</td><td>' + PD_PRICE + '</td><td>' + TP_ID + '</td><td>' + PD_UNIT + '</td> <td>  <input type="button" class="btn btn-danger add" onclick="rejectitem(this)" value="-"> </td> </tr>';
+            console.log(storevalue);
+            $(e).closest('tr').find('.PD_VALUE').text('');
+            $(e).closest('tr').find('.PD_VALUE').text(storevalue);
+            $('#tableproducttoOrder').append(newRow);
+            $('#CountPD').text(count);
+            table = document.getElementById("tableproducttoOrder");
+            var total = 0;
+            for (var i = 1; i < table.rows.length-1; i++) {
+                console.log(table.rows[i].cells[4].innerHTML.trim());
+                total += parseFloat(table.rows[i].cells[4].innerHTML.trim());
+            }
+            console.log(total);
+            $('#CountPcire').text(total);
+            document.getElementById("Creorder").disabled = false;
+            document.getElementById("clearitem").disabled = false;
+        }
+
+    }
+
+    function Createorder()
+    {
+        var table = document.getElementById("tableproducttoOrder");
+        var data = [];
+
+        for (var i = 1; i < table.rows.length-1; i++) {
+            var row = table.rows[i];
+            var obj = {
+                PD_ID: row.cells[1].innerHTML,
+                PD_NAME: row.cells[2].innerHTML,
+                PD_VALUE: row.cells[3].innerHTML,
+                PD_PRICE: row.cells[4].innerHTML,
+                TP_ID: row.cells[5].innerHTML.substring(0, 5),
+                PD_UNIT: row.cells[6].innerHTML
+            };
+            data.push(obj);
+        }
+
+        console.log(data);
+
+        var jsonData = JSON.stringify(data);
+        const dataModel = {
+            JsonlistProduct: jsonData,
+        }
+        var result = confirm("ยืนยันการทำรายการ?");
+        if (result) {
+          $.ajax({
+            url: '@Url.Action("InputProductToOrder", "PD_ORDER")',
+            data: dataModel,
+            dataType: "json",
+            type: 'POST',
+            success: function (res) {
+                if (res["success"]) {
+                    alert("ทำรายการสำเร็จ");
+                    var orderid = res["orderid"];
+                    $("#tbodyPDorder").empty();
+                    getoderHistory(orderid);
+                    gedatatoder();
+                    return;
+                } else {
+                   alert("ไม่สามารุถทำรายการได้")
+                    return;
+                }
+            },
+        });
+        }
+
+
+    }
+    function EvnetclickgetorderHistory(e)
+    {
+        $("#tbodyPDorder").empty();
+        document.getElementById("clearitem").disabled = false;
+        var OR_ID = $(e).closest('tr').find('.orderidHIS').text().trim();
+        console.log(OR_ID);
+        getoderHistory(OR_ID);
+    }
+    function refeshandclear()
+    {
+        location.reload();
+    }
+    function getoderHistory(orderid)
+    {
+        document.getElementById("Creorder").disabled = true;
+        $('#orderid').text('เลขที่ Order : ' + orderid);
+        const dataModel = {
+            oderid: orderid,
+        }
+        $.ajax({
+            url: '@Url.Action("GetOrderData", "PD_ORDER")',
+            data: dataModel,
+            dataType: "json",
+            type: 'POST',
+            success: function (res) {
+                var jsonString = res["strjsondata"];
+
+                var data = JSON.parse(jsonString);
+                console.log(data);
+                var countitem = 0;
+                var sumpiceall = 0;
+                $.each(data, function (i, item) {
+                    countitem =  i + 1;
+                    sumpiceall = parseFloat(sumpiceall) + parseFloat(item.Price);
+                    $('<tr>').html(
+                        "<td>" + item.Number + "</td>" +
+                        "<td>" + item.ProdcutID + "</td>" +
+                        "<td>" + item.ProdcutName + "</td>" +
+                        "<td>" + item.Quantity + "</td>" +
+                        "<td>" + item.Price + "</td>" +
+                        "<td>" + item.Type + "</td>" +
+                        "<td>" + item.Unit + "</td> </tr>"
+                    ).appendTo('#tableproducttoOrder');
+                });
+                $("#CountPD").text(countitem);
+                $("#CountPcire").text(sumpiceall);
+            },
+        });
+    }
+   function gedatatoder()
+   {
+    
+       $("#thobyoorderbottom").empty();
+        $.ajax({
+            url: '@Url.Action("GetGroupOrderData", "PD_ORDER")',
+            dataType: "json",
+            type: 'POST',
+            success: function (res) {
+                var jsonString = res["strjsondata"];
+                var data = JSON.parse(jsonString);
+                console.log(data);
+                $.each(data, function (i, item) {
+                    $('<tr>').html(
+                        "<td> <input type='button' class='btn btn-success add' onclick='EvnetclickgetorderHistory(this)' value='Show'> </td>" +
+                        "<td>" + item.Number + "</td>" +
+                        "<td class='orderidHIS'>" + item.OrderID + "</td>" +
+                        "<td>" + item.Date + "</td>" +
+                        "<td>" + item.pricesum + "</td> </tr>"
+                    ).appendTo('#tableOrder');
+                });
+            },
+        });
+    }
+</script>
+

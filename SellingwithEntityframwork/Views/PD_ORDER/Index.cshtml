@@ -1,0 +1,72 @@
+﻿@model IEnumerable<SellingwithEntityframwork.Models.pd_order>
+
+@{
+    ViewBag.Title = "Index";
+
+
+    IEnumerable<SellingwithEntityframwork.Models.pd_type> TYPELIST = (IEnumerable<SellingwithEntityframwork.Models.pd_type>)ViewData["listTYPE"];
+    IEnumerable<SellingwithEntityframwork.Models.pd_product> PRODUCTLIST = (IEnumerable<SellingwithEntityframwork.Models.pd_product>)ViewData["listPRODUCT"];
+
+}
+
+<h2>Index</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.OD_ID)
+        </th>
+        <th>
+            สินค้า
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OD_DATE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OD_QUANTITY)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PRICE)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.OD_ID)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.PD_ID)
+        @{ if (PRODUCTLIST.Where(x => x.PD_ID == item.PD_ID).FirstOrDefault() != null)
+            {
+                @PRODUCTLIST.Where(x => x.PD_ID == item.PD_ID).FirstOrDefault().PD_NAME 
+                    if (TYPELIST.Where(x => x.TP_ID == PRODUCTLIST.Where(q => q.PD_ID == item.PD_ID).FirstOrDefault().TP_ID) != null)
+                    {
+                     @TYPELIST.Where(x => x.TP_ID == PRODUCTLIST.Where(q => q.PD_ID == item.PD_ID).FirstOrDefault().TP_ID).FirstOrDefault().TP_ID @TYPELIST.Where(x => x.TP_ID == PRODUCTLIST.Where(q => q.PD_ID == item.PD_ID).FirstOrDefault().TP_ID).FirstOrDefault().TP_NAME
+                    }
+           }
+         }
+
+
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.OD_DATE)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.OD_QUANTITY)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.PRICE)
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id1 = item.OD_ID, id2 = item.PD_ID }) |
+        @Html.ActionLink("Details", "Details", new { id1 = item.OD_ID,id2 = item.PD_ID } ) |
+        @Html.ActionLink("Delete", "Delete", new { id1 = item.OD_ID, id2 = item.PD_ID } )
+    </td>
+</tr>
+    }
+
+</table>

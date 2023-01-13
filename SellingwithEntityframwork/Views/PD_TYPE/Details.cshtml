@@ -1,0 +1,33 @@
+﻿@model SellingwithEntityframwork.Models.pd_type
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>PD_TYPE</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TP_ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TP_ID)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TP_NAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TP_NAME)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.TP_ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

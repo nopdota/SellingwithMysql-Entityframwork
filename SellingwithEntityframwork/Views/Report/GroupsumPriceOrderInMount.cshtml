@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewBag.Title = "ReportIndex";
+    IEnumerable<SellingwithEntityframwork.Controllers.ReportController.ClassGroupsumPriceOrderInMount> PRODUCTLIST = (IEnumerable<SellingwithEntityframwork.Controllers.ReportController.ClassGroupsumPriceOrderInMount>)ViewData["GroupsumPriceOrderInMount"];
+
+}
+
+
+
+    <table class="table col-md-12" id="tablerepoet1">
+
+        <thead>
+            <tr>
+                <th>
+                    เดือน
+                </th>
+                <th>
+                    Sumary
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in PRODUCTLIST)
+            {
+                <tr>
+
+                    <td>
+                        @item.Mount
+                    </td>
+                    <td>
+                        @item.Price
+                    </td>
+              
+                </tr>
+            }
+        </tbody>
+
+        <tfoot>
+            <tr>
+                <td id="td_count_tatop">
+                    ทั้งหมด : @PRODUCTLIST.ToList().Count เดือน
+                </td>
+
+                <td id="td_sum_tatop">
+                    รวม @PRODUCTLIST.Sum(x => decimal.Parse(x.Price))  BTH
+                </td>
+
+            </tr>
+        </tfoot>
+    </table>
